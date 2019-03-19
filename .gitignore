@@ -1,0 +1,4 @@
+cloud-admin/target/
+cloud-parent/.idea/
+*.iml
+cloud-pay/.mvn/
