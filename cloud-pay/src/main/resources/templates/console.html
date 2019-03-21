@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{layuiadmin/layui/css/layui.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{layuiadmin/style/admin.css}"/>
+    <script th:src="@{layuiadmin/layui/layui.js}"></script>
+    <title>监控</title>
+    <style>
+        .layadmin-carousel {
+            height: 332px!important;
+            background-color: #fff;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">订单概览</div>
+                        <div class="layui-card-body">
+                            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade"
+                                 lay-filter="LAY-index-dataview">
+                                <div carousel-item id="LAY-index-dataview">
+                                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">待办事项</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                        <div carousel-item>
+                            <ul class="layui-row layui-col-space10">
+                                <li class="layui-col-xs6">
+                                    <a lay-href="app/content/comment.html" class="layadmin-backlog-body">
+                                        <h3>今日订单数量(笔)</h3>
+                                        <p><cite>668</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a lay-href="app/forum/list.html" class="layadmin-backlog-body">
+                                        <h3>今日订单金额(元)</h3>
+                                        <p><cite>12,241</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a lay-href="template/goodslist.html" class="layadmin-backlog-body">
+                                        <h3>本周订单数量(笔)</h3>
+                                        <p><cite>3668</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
+                                        <h3>本周订单金额(元)</h3>
+                                        <p><cite>52,234</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a lay-href="template/goodslist1.html" class="layadmin-backlog-body">
+                                        <h3>本月订单数量(笔)</h3>
+                                        <p><cite>14668</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
+                                        <h3>本月订单金额(元)</h3>
+                                        <p><cite>182,231</cite></p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var ctxPath = /*[[@{/}]]*/ '';
+    layui.config({
+        base: ctxPath + 'layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'console']);
+</script>
+</body>
+</html>

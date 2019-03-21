@@ -3,12 +3,15 @@ package com.donglu.cloud.config;
 import com.donglu.cloud.bean.QSystemUser;
 import com.donglu.cloud.bean.SystemUser;
 import com.donglu.cloud.repository.SystemUserRepository;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -19,6 +22,7 @@ import java.util.Optional;
  * 系统权限配置
  */
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -47,7 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             if (!one.isPresent()) {
                 throw new UsernameNotFoundException("用户名或密码错误");
             }
-            return new SystemUserDetail(one.get());
+            SystemUser systemUser = one.get();
+            return User.builder().username(systemUser.getUsername()).password(systemUser.getPassword()).authorities(Lists.newArrayList()).build();
         }).passwordEncoder(new BCryptPasswordEncoder());
     }
 

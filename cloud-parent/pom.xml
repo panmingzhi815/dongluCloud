@@ -27,5 +27,23 @@
         <module>../cloud-pay</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- https://mvnrepository.com/artifact/com.github.binarywang/wx-java -->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>wx-java</artifactId>
+                <version>3.3.0</version>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://www.jitpack.io</url>
+        </repository>
+    </repositories>
 
 </project>

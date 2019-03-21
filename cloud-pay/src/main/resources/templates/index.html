@@ -10,7 +10,7 @@
 <body class="layui-layout-body">
 
 <div id="LAY_app">
-    <div class="layui-layout layui-layout-admin">
+    <div class="layui-layout layui-layout-admin ">
         <div class="layui-header">
             <!-- 头部区域 -->
             <ul class="layui-nav layui-layout-left">
@@ -55,14 +55,14 @@
 
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
-                    <li data-name="home" class="layui-nav-item layui-nav-itemed" th:each="menu:${menus}" th:if="${menu.parent == null}" lay>
+                    <li data-name="home" class="layui-nav-item" th:each="menu:${menus}">
                         <a href="javascript:;">
                             <i class="layui-icon layui-icon-home"></i>
-                            <cite th:text="${menu.menuName}">主页</cite>
+                            <cite th:text="${menu.menuName}"></cite>
                         </a>
                         <dl class="layui-nav-child">
                             <dd th:each="sub:${menu.children}" th:attr="data-name=${sub.menuCode}">
-                                <a th:attr="lay-href=${sub.menuUrl}" th:text="${sub.menuName}">控制台</a>
+                                <a th:attr="lay-href=${sub.menuUrl}" th:text="${sub.menuName}"></a>
                             </dd>
                         </dl>
                     </li>
@@ -98,7 +98,7 @@
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe src="home/console.html" frameborder="0" class="layadmin-iframe"></iframe>
+                <iframe th:src="@{/console}" frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
 
@@ -107,10 +107,10 @@
     </div>
 </div>
 
-<script src="../layuiadmin/layui/layui.js"></script>
-<script>
+<script th:inline="javascript">
+    var ctxPath = /*[[@{/}]]*/ '';
     layui.config({
-        base: '../layuiadmin/' //静态资源所在路径
+        base: ctxPath + 'layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use('index');
