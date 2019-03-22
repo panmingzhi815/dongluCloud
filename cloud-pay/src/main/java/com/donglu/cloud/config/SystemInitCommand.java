@@ -81,9 +81,9 @@ public class SystemInitCommand implements CommandLineRunner {
 
         SystemMenu systemMenu2 = saveSystemMenu(null, "支付管理", null, "folder");
 
-        saveSystemMenu(systemMenu2,"开放平台","pay/platform","menu");
-        saveSystemMenu(systemMenu2,"微信支付","pay/weixin","menu");
-        saveSystemMenu(systemMenu2,"支付宝支付","pay/zhifubao","menu");
+        saveSystemMenu(systemMenu2,"商户管理","pay/merchant","menu");
+        saveSystemMenu(systemMenu2,"微信支付","pay/weixinMerchant","menu");
+        saveSystemMenu(systemMenu2,"支付宝支付","pay/zhifubaoMerchant","menu");
 
         SystemMenu systemMenu3 = saveSystemMenu(null, "订单管理", null, "folder");
         saveSystemMenu(systemMenu3,"支付订单","order/pay","menu");

@@ -16,10 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 public class SystemController {
@@ -30,7 +28,7 @@ public class SystemController {
     private SystemUserRepository systemUserRepository;
 
     @GetMapping(path = {"/", "/index"})
-    public String dashborad(Model model) {
+    public String index(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         model.addAttribute("menus", getSystemMenuList(user.getUsername()));
@@ -38,53 +36,58 @@ public class SystemController {
     }
 
     private List<SystemMenu> getSystemMenuList(String username) {
-        if("admin".equals(username)){
-            BooleanExpression folder = QSystemMenu.systemMenu.menuType.eq("folder");
-            OrderSpecifier<String> asc = QSystemMenu.systemMenu.menuOrder.asc();
-            return Lists.newArrayList(systemMenuRepository.findAll(folder,asc));
-        }
-
         BooleanExpression folder = QSystemMenu.systemMenu.menuType.eq("folder");
-        BooleanExpression eq = QSystemMenu.systemMenu.systemRole.systemUser.username.eq(username);
         OrderSpecifier<String> asc = QSystemMenu.systemMenu.menuOrder.asc();
-        return Lists.newArrayList(systemMenuRepository.findAll(folder.and(eq),asc));
+        if ("admin".equals(username)) {
+            return Lists.newArrayList(systemMenuRepository.findAll(folder, asc));
+        } else {
+            BooleanExpression eq = QSystemMenu.systemMenu.systemRole.systemUser.username.eq(username);
+            return Lists.newArrayList(systemMenuRepository.findAll(folder.and(eq), asc));
+        }
     }
 
     @GetMapping("/systemUser")
     @ResponseBody
-    public MsgResponse getUsers(@RequestParam(required = false,defaultValue = "1") Integer page,@RequestParam(required = false,defaultValue = "10") Integer limit) {
-        Page<SystemUser> all = systemUserRepository.findAll(PageRequest.of(page-1, limit));
-       return MsgResponse.success(0,"",all.getTotalElements(),all.getContent());
+    public MsgResponse getSystemUserList(@RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "10") Integer limit) {
+        Page<SystemUser> all = systemUserRepository.findAll(PageRequest.of(page - 1, limit));
+        return MsgResponse.success(0, "", all.getTotalElements(), all.getContent());
     }
 
-    @GetMapping("/systemUser/{id}")
-    public String getUsers(@PathVariable String id,Model model) {
-        Optional<SystemUser> one = systemUserRepository.findOne(QSystemUser.systemUser.id.eq(id));
-        model.addAttribute("systemUser",one.get());
-        return "system/user_info";
-    }
-
-    @PutMapping("/systemUser/{id}")
+    @PutMapping("/systemUser")
     @ResponseBody
-    public MsgResponse getUsers(@PathVariable String id,@RequestBody SystemUser systemUser) {
-        Optional<SystemUser> byId = systemUserRepository.findById(id);
-        if (byId.isPresent()) {
-            SystemUser user = byId.get();
-            user.setUsername(systemUser.getUsername());
-            user.setNickName(systemUser.getNickName());
-            user.setEmail(systemUser.getEmail());
-            user.setStateEnum(systemUser.getStateEnum());
-            systemUserRepository.save(user);
-            return MsgResponse.success(0,"操作成功");
+    public MsgResponse updateSystemUser(@RequestBody SystemUser systemUser) {
+        Optional<SystemUser> byId = systemUserRepository.findById(systemUser.getId());
+        if (!byId.isPresent()) {
+            return MsgResponse.fail(MsgCode.code_10001);
         }
 
-        return MsgResponse.fail(MsgCode.code_10001);
+        SystemUser user = byId.get();
+        user.setUsername(systemUser.getUsername());
+        user.setNickName(systemUser.getNickName());
+        user.setEmail(systemUser.getEmail());
+        user.setStateEnum(systemUser.getStateEnum());
+        systemUserRepository.save(user);
+        return MsgResponse.success(0, "操作成功");
+
     }
 
     @PostMapping("/systemUser")
     @ResponseBody
-    public MsgResponse getUsers(@RequestBody SystemUser systemUser) {
+    public MsgResponse SaveSystemUser(@RequestBody SystemUser systemUser) {
         systemUserRepository.save(systemUser);
-        return MsgResponse.success(0,"操作成功");
+        return MsgResponse.success(0, "操作成功");
+    }
+
+    @GetMapping("/systemUser_info/{id}")
+    public String redirectEditPage(@PathVariable String id, Model model) {
+        Optional<SystemUser> one = systemUserRepository.findOne(QSystemUser.systemUser.id.eq(id));
+        model.addAttribute("systemUser", one.get());
+        return "system/user_info";
+    }
+
+    @GetMapping("/systemUser_info")
+    public String redirectAddPage(Model model) {
+        model.addAttribute("systemUser", new SystemUser());
+        return "system/user_info";
     }
 }

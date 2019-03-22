@@ -20,9 +20,11 @@ public class ViewController implements WebMvcConfigurer {
         registry.addViewController("login");
         registry.addViewController("console");
         registry.addViewController("system/user");
-        registry.addViewController("system/user_info");
         registry.addViewController("system/role");
         registry.addViewController("system/menu");
+        registry.addViewController("pay/merchant");
+        registry.addViewController("pay/weixinMerchant");
+        registry.addViewController("pay/zhifubaoMerchant");
     }
 
     @Bean
