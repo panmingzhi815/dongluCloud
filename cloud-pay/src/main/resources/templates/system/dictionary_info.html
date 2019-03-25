@@ -2,39 +2,33 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="common/head.html"/>
-    <title>商户管理</title>
+    <title>用户管理</title>
 </head>
 <body>
 <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
-    <input type="hidden" name="id" th:value="${ weixinMerchant.id}">
+    <input type="hidden" name="id" th:value="${ dictionary.id}">
     <div class="layui-form-item">
-        <label class="layui-form-label">应用appId</label>
+        <label class="layui-form-label">标识</label>
         <div class="layui-input-inline">
-            <input type="text" name="appId" th:value="${ weixinMerchant.appId}" lay-verify="required"
-                   placeholder="请输入应用appId" autocomplete="off" class="layui-input">
+            <input type="text" name="key" th:value="${ dictionary.key}" lay-verify="required"
+                   placeholder="请输入标识" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">商户mchId</label>
+        <label class="layui-form-label">内容</label>
         <div class="layui-input-inline">
-            <input type="text" name="mchId" th:value="${ weixinMerchant.mchId}" lay-verify="required"
-                   placeholder="请输入商户mchId" autocomplete="off" class="layui-input">
+            <input type="text" name="value" th:value="${ dictionary.value}" lay-verify="required"
+                   placeholder="请输入内容" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">app密钥</label>
+        <label class="layui-form-label">描述</label>
         <div class="layui-input-inline">
-            <input type="text" name="appSecret" th:value="${ weixinMerchant.appSecret}" lay-verify="required" placeholder="请输入密钥appSecret"
-                   autocomplete="off" class="layui-input">
+            <textarea th:rows="5" type="text" name="describe" th:value="${ dictionary.describe}" lay-verify="required" placeholder="请输入描述"
+                      autocomplete="off" class="layui-textarea"></textarea>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">api密钥</label>
-        <div class="layui-input-inline">
-            <input type="text" name="apiSecret" th:value="${ weixinMerchant.apiSecret}" lay-verify="required" placeholder="请输入密钥apiSecret"
-                   autocomplete="off" class="layui-input">
-        </div>
-    </div>
+
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="submit" id="submit" value="确认">
     </div>
@@ -48,7 +42,7 @@
             var type = json['id'] === '' ? 'POST':'PUT';
             $.ajax({
                 type: type,
-                url: ctxPath + "weixinMerchant",
+                url: ctxPath + "dictionary",
                 data: JSON.stringify(json),
                 contentType: 'application/json',
                 success: function (ret) {

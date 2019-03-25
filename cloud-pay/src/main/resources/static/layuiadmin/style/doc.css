@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+body {
+    background: #eee;
+}
+
+.layui-container {
+    background: #fff;
+}
+
+body .layui-container {
+    padding: 25px 0;
+    margin: 50px auto;
+}
+
+
+#footer_container {
+    margin: 0 auto;
+    max-width: 1170px;
+    padding: 20px 0;
+}
+
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    width:100%;
+}
+
+fixed-bottom p {
+    height: 100px;
+    line-height: 100px;
+    color: #FFF;
+}

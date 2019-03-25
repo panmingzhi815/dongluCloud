@@ -2,22 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="common/head.html"/>
-    <title>微信商户管理</title>
+    <title>角色管理</title>
 </head>
 <body>
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
             <div class="layui-inline">
-                <label class="layui-form-label" for="date1">用户名</label>
+                <label class="layui-form-label" for="roleName">角色名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="date" id="date1" autocomplete="off" class="layui-input">
+                    <input type="text" name="roleName" id="roleName" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline" style="margin-left: 10px;line-height: 30px">
                 <button class="layui-btn" id="search_btn">查询</button>
                 <button class="layui-btn" id="add_btn">添加</button>
             </div>
+
         </div>
 
         <div class="layui-card-body">
@@ -38,20 +39,21 @@
 <script th:inline="javascript">
     var ctxPath = /*[[@{/}]]*/ '';
     layui.use(['form', 'table','layer'], function () {
-        var $ = layui.$, form = layui.form, table = layui.table,layer = layui.layer;
+        var $ = layui.$;
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
 
         table.render({
             elem: '#table'
             , height: 500
-            , url: ctxPath + 'weixinMerchant' //数据接口
+            , url: ctxPath + 'systemRole' //数据接口
             , page: true //开启分页
             , cols: [
                 [ //表头
-                    {title: '应用appId', field: 'appId', width: 200}
-                    , {title: '商户mchId', field: 'mchId', width: 200}
-                    , {title: '密钥appSecret', field: 'appSecret', width: 250}
-                    , {title: '密钥apiSecret', field: 'apiSecret', width: 250}
-                    , {title: '创建时间', field: 'create', width: 250}
+                    {field: 'roleName', title: '角色名称', width: 150}
+                    , {field: 'roleDescribe', title: '角色描述', width: 250}
+                    , {field: 'create', title: '创建时间', width: 250}
                     , {title: "操作", align: "left", fixed: "right", toolbar: "#table-edit"}
                 ]
             ]
@@ -63,8 +65,8 @@
             if(obj.event === 'edit'){
                 layer.open({
                     type: 2,
-                    title: "编辑商户",
-                    content: [ctxPath + "weixinMerchant_info/"+data.id, 'no'],
+                    title: "编辑角色",
+                    content: [ctxPath + "systemRole_info/"+data.id, 'no'],
                     area: ["420px", "420px"],
                     btn: ["确定", "取消"],
                     yes: function (index, layero) {
@@ -88,8 +90,8 @@
         $("#add_btn").on('click',function () {
             layer.open({
                 type: 2,
-                title: "添加商户",
-                content: [ctxPath + "weixinMerchant_info", 'no'],
+                title: "添加角色",
+                content: [ctxPath + "systemRole_info", 'no'],
                 area: ["420px", "420px"],
                 btn: ["确定", "取消"],
                 yes: function (index, layero) {
@@ -99,6 +101,13 @@
                     table.reload('table');
                 }
             })
+        })
+        $("#search_btn").on('click',function () {
+            table.reload('table', {
+                where:{
+                    roleName:$('#roleName').val()
+                }
+            });
         })
     });
 </script>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="common/head.html"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/style/doc.css}"/>
+    <title>开发文档</title>
+</head>
+<body>
+<th:block th:insert="common/top"/>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md1">&nbsp;</div>
+        <div class="layui-col-md10">
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>接入提示</legend>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">
+                        不提供BC、SSC、JR、QP、CP等涉及黄赌毒行业的支付接入，其他行业接入需审核通过方可开通接口
+                        <br>
+                        接入要求：
+                        <br>
+                        1.正规行业站点
+                        <br>
+                        2.接入站点域名需ICP网站备案
+                    </blockquote>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>创建订单</legend>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">
+                        请求方式：GET / POST
+                        <br>
+                        请求网址：http://pay.dongluhitec.net/api/submit
+                    </blockquote>
+                    <caption>参数说明：</caption>
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="135">
+                            <col width="135">
+                            <col width="135">
+                            <col width="120">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>参数名称</th>
+                            <th>变量名</th>
+                            <th>类型长度</th>
+                            <th>是否必须</th>
+                            <th>说明</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>版本号</td>
+                            <td>version</td>
+                            <td>varchar(5)</td>
+                            <td>是</td>
+                            <td>默认 1.0</td>
+                        </tr>
+                        <tr>
+                            <td>商户编号</td>
+                            <td>customerid</td>
+                            <td>int(6)</td>
+                            <td>是</td>
+                            <td>商户后台获取</td>
+                        </tr>
+                        <tr>
+                            <td>商户订单号</td>
+                            <td>sdorderno</td>
+                            <td>varchar(20)</td>
+                            <td>是</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>订单金额</td>
+                            <td>totalfee</td>
+                            <td>decimal(10,2)</td>
+                            <td>是</td>
+                            <td>最多两位小数</td>
+                        </tr>
+                        <tr>
+                            <td>支付编号</td>
+                            <td>paytype</td>
+                            <td>varchar(12)</td>
+                            <td>是</td>
+                            <td>alipay -&gt; 支付宝<br>alipaywap -&gt; 支付宝WAP<br>alipayqr -&gt; 支付宝扫码<br>weixin -&gt;
+                                微信扫码<br>weixinh5 -&gt; 微信H5<br>weixinjsapi -&gt; 微信JSAPI<br>qq -&gt; 手Q扫码
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>异步通知URL</td>
+                            <td>notifyurl</td>
+                            <td>varchar(50)</td>
+                            <td>是</td>
+                            <td>不能带有任何参数</td>
+                        </tr>
+                        <tr>
+                            <td>同步跳转URL</td>
+                            <td>returnurl</td>
+                            <td>varchar(50)</td>
+                            <td>是</td>
+                            <td>不能带有任何参数</td>
+                        </tr>
+                        <tr>
+                            <td>md5签名</td>
+                            <td>sign</td>
+                            <td>varchar(32)</td>
+                            <td>是</td>
+                            <td>参照md5签名方法</td>
+                        </tr>
+                        <tr>
+                            <td>分区判断</td>
+                            <td>server</td>
+                            <td>varchar(50)</td>
+                            <td>否</td>
+                            <td>支付通知中原样返回，该字段主要用于商户携带订单的自定义数据</td>
+                        </tr>
+                        <tr>
+                            <td>备注说明</td>
+                            <td>remark</td>
+                            <td>varchar(50)</td>
+                            <td>否</td>
+                            <td>支付通知中原样返回，该字段主要用于商户携带订单的自定义数据</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <blockquote class="layui-elem-quote layui-quote-nm">
+                        md5签名方法：
+                        <br>
+                        version={value}&amp;customerid={value}&amp;totalfee={value}&amp;sdorderno={value}&amp;notifyurl={value}&amp;returnurl={value}&amp;apikey={value}
+                        <br>
+                        使用md5签名上面拼接的字符串即可生成小写的32位密文
+                    </blockquote>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>异步通知回调</legend>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">
+                        通知方式：POST
+                        <br>
+                        收到通知回复：success
+                        <br>
+                        回调失败的处理：如果收到商户的回复不符合规范或超时，会判定本次通知失败，重新发送通知，直到成功为止，但不保证通知最终一定能成功
+                    </blockquote>
+                    <caption>参数说明：</caption>
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="135">
+                            <col width="135">
+                            <col width="135">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>参数名称</th>
+                            <th>变量名</th>
+                            <th>类型长度</th>
+                            <th>说明</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>商户编号</td>
+                            <td>customerid</td>
+                            <td>int(6)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>商户订单号</td>
+                            <td>sdorderno</td>
+                            <td>varchar(20)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>平台订单号</td>
+                            <td>sdpayno</td>
+                            <td>varchar(20)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>交易金额</td>
+                            <td>totalfee</td>
+                            <td>decimal(10,2)</td>
+                            <td>通知回调业务处理过程中务必验证交易金额，支付失败返回交易金额为0</td>
+                        </tr>
+                        <tr>
+                            <td>支付类型</td>
+                            <td>paytype</td>
+                            <td>varchar(12)</td>
+                            <td>alipay -&gt; 支付宝<br>alipaywap -&gt; 支付宝WAP<br>alipayqr -&gt; 支付宝扫码<br>weixin -&gt;
+                                微信扫码<br>weixinh5 -&gt; 微信H5<br>weixinjsapi -&gt; 微信JSAPI<br>qq -&gt; 手Q扫码
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>md5验证签名</td>
+                            <td>sign</td>
+                            <td>varchar(32)</td>
+                            <td>参照md5签名方法</td>
+                        </tr>
+                        <tr>
+                            <td>分区判断</td>
+                            <td>server</td>
+                            <td>varchar(50)</td>
+                            <td>原样返回</td>
+                        </tr>
+                        <tr>
+                            <td>备注说明</td>
+                            <td>remark</td>
+                            <td>varchar(50)</td>
+                            <td>原样返回</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <blockquote class="layui-elem-quote layui-quote-nm">
+                        md5签名方法：
+                        <br>
+                        customerid={value}&amp;totalfee={value}&amp;sdorderno={value}&amp;sdpayno={value}&amp;paytype={value}&amp;apikey={value}
+                        <br>
+                        使用md5签名上面拼接的字符串即可生成小写的32位密文
+                    </blockquote>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>同步通知跳转</legend>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">
+                        通知方式：GET
+                        <br>
+                        其他说明：请不要在同步通知页面处理交易结果，最终结果以异步通知为准
+                        <br>
+                        参数说明：同异步参数说明
+                        <br>
+                        md5签名方法：同异步md5签名方法
+                    </blockquote>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>订单查询</legend>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">
+                        请求方式：GET / POST
+                        <br>
+                        请求网址：http://pay.dongluhitec.net/api/query
+                    </blockquote>
+                    <caption>参数说明：</caption>
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="135">
+                            <col width="135">
+                            <col width="135">
+                            <col width="120">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>参数名称</th>
+                            <th>变量名</th>
+                            <th>类型长度</th>
+                            <th>是否必须</th>
+                            <th>说明</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>版本号</td>
+                            <td>version</td>
+                            <td>varchar(5)</td>
+                            <td>是</td>
+                            <td>默认 1.0</td>
+                        </tr>
+                        <tr>
+                            <td>商户编号</td>
+                            <td>customerid</td>
+                            <td>int(6)</td>
+                            <td>是</td>
+                            <td>商户后台获取</td>
+                        </tr>
+                        <tr>
+                            <td>商户订单号</td>
+                            <td>sdorderno</td>
+                            <td>varchar(20)</td>
+                            <td>是</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>md5签名</td>
+                            <td>sign</td>
+                            <td>varchar(32)</td>
+                            <td>是</td>
+                            <td>参照md5签名方法</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <blockquote class="layui-elem-quote layui-quote-nm">
+                        md5签名方法：
+                        <br>
+                        version={value}&amp;customerid={value}&amp;sdorderno={value}&amp;apikey={value}
+                        <br>
+                        使用md5签名上面拼接的字符串即可生成小写的32位密文
+                    </blockquote>
+                    <caption>结果返回：</caption>
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="135">
+                            <col width="135">
+                            <col width="135">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>参数名称</th>
+                            <th>变量名</th>
+                            <th>类型长度</th>
+                            <th>说明</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>支付状态</td>
+                            <td>status</td>
+                            <td>int(2)</td>
+                            <td>0 -&gt; 已付款，已通知商户系统<br>1 -&gt; 未付款<br>2 -&gt; 已付款，待通知商户系统<br>3 -&gt; 已退款，全额退款<br>4 -&gt;
+                                已关闭<br>5 -&gt; 已退款，部分退款
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>商户订单号</td>
+                            <td>sdorderno</td>
+                            <td>varchar(20)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>平台订单号</td>
+                            <td>sdpayno</td>
+                            <td>varchar(20)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>交易金额</td>
+                            <td>totalfee</td>
+                            <td>decimal(10,2)</td>
+                            <td>最多两位小数</td>
+                        </tr>
+                        <tr>
+                            <td>支付类型</td>
+                            <td>paytype</td>
+                            <td>varchar(12)</td>
+                            <td>alipay -&gt; 支付宝<br>alipaywap -&gt; 支付宝WAP<br>alipayqr -&gt; 支付宝扫码<br>weixin -&gt;
+                                微信扫码<br>weixinh5 -&gt; 微信H5<br>weixinjsapi -&gt; 微信JSAPI<br>qq -&gt; 手Q扫码
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>订单时间</td>
+                            <td>datetime</td>
+                            <td>varchar(14)</td>
+                            <td>yyyyMMddHHmmss</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>订单关闭</legend>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">
+                        请求方式：GET / POST
+                        <br>
+                        请求网址：http://pay.dongluhitec.net/api/close
+                        <br>
+                        参数说明：同订单查询参数说明
+                        <br>
+                        md5签名方法：同订单查询md5签名方法
+                        <br>
+                        结果返回：success
+                        <br>
+                        其他说明：订单成功关闭会返回success
+                    </blockquote>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>订单退款</legend>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">
+                        请求方式：GET / POST
+                        <br>
+                        请求网址：http://pay.dongluhitec.net/api/refund
+                        <br>
+                        结果返回：success
+                        <br>
+                        其他说明：订单成功退款会返回success
+                        <br>
+                        其他说明：调用本接口后，已付款金额将原路退回支付方，但商户在本平台已产生的平台手续费不退还，请确保商户账户余额大于已付款金额
+                    </blockquote>
+                    <caption>参数说明：</caption>
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="135">
+                            <col width="135">
+                            <col width="135">
+                            <col width="120">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>参数名称</th>
+                            <th>变量名</th>
+                            <th>类型长度</th>
+                            <th>是否必须</th>
+                            <th>说明</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>商户退款单号</td>
+                            <td>sdrefundno</td>
+                            <td>varchar(20)</td>
+                            <td>是</td>
+                            <td>退款业务单号，一般为商户订单号前加R，可全额退款，也可多次部分退款<br>例：<br>商户订单号001<br>全额退款：商户退款单号R001<br>部分退款：商户退款单号R001-1，R001-2，R001-3（以此类推，不能重复）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>退款金额</td>
+                            <td>refundfee</td>
+                            <td>decimal(10,2)</td>
+                            <td>是</td>
+                            <td>最多两位小数且金额不能大于商户订单可退金额<br>可退金额 = 实付金额 - 已退款金额</td>
+                        </tr>
+                        <tr>
+                            <td>版本号</td>
+                            <td>version</td>
+                            <td>varchar(5)</td>
+                            <td>是</td>
+                            <td>默认 1.0</td>
+                        </tr>
+                        <tr>
+                            <td>商户编号</td>
+                            <td>customerid</td>
+                            <td>int(6)</td>
+                            <td>是</td>
+                            <td>商户后台获取</td>
+                        </tr>
+                        <tr>
+                            <td>商户订单号</td>
+                            <td>sdorderno</td>
+                            <td>varchar(20)</td>
+                            <td>是</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>md5签名</td>
+                            <td>sign</td>
+                            <td>varchar(32)</td>
+                            <td>是</td>
+                            <td>参照md5签名方法</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <blockquote class="layui-elem-quote layui-quote-nm">
+                        md5签名方法：
+                        <br>
+                        version={value}&amp;customerid={value}&amp;sdorderno={value}&amp;sdrefundno={value}&amp;refundfee={value}&amp;apikey={value}
+                        <br>
+                        使用md5签名上面拼接的字符串即可生成小写的32位密文
+                    </blockquote>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>集成测试</legend>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">
+                        使用账号test密码test登陆平台获取接入秘钥（APIKey）进行商户系统集成开发
+                        <br>
+                        使用创建订单接口生成付款订单后，无需实际付款，使用测试商户进入商户后台-&gt;交易订单，在对应订单点击付款进行订单模拟支付后，再点击通知图标对商户系统进行异步回调
+                        <br>
+                        <br>
+                        接入注意事项：
+                        <br>
+                        1.付款结果以异步通知为准
+                        <br>
+                        2.不论异步通知还是同步通知必须再次验证totalfee金额是否与发起支付时的金额一致，支付失败返回交易金额为0
+                        <br>
+                        3.我方支付系统有可能进行多次异步回调，要做好商户系统接收通知接口的订单处理逻辑，避免订单重复处理
+                        <br>
+                        4.订单支付成功后会对商户系统进行异步回调，商户系统需在订单处理完成后输出"success"反馈订单处理结果，否则我方支付系统会根据策略，间隔时间持续多次进行异步回调直至接收到"success"停止
+                    </blockquote>
+                </div>
+            </fieldset>
+        </div>
+        <div class="layui-col-md1">&nbsp;</div>
+    </div>
+</div>
+</body>
+
+</html>

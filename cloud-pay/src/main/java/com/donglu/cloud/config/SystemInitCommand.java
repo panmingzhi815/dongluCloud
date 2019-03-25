@@ -1,20 +1,13 @@
 package com.donglu.cloud.config;
 
-import com.donglu.cloud.bean.SystemMenu;
-import com.donglu.cloud.bean.SystemRole;
-import com.donglu.cloud.bean.SystemUser;
-import com.donglu.cloud.bean.SystemUserStateEnum;
-import com.donglu.cloud.repository.SystemMenuRepository;
-import com.donglu.cloud.repository.SystemRoleRepository;
-import com.donglu.cloud.repository.SystemUserRepository;
+import com.donglu.cloud.bean.*;
+import com.donglu.cloud.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.time.LocalDateTime;
 
 @Configuration
 @Slf4j
@@ -26,36 +19,54 @@ public class SystemInitCommand implements CommandLineRunner {
     private SystemRoleRepository systemRoleRepository;
     @Autowired
     private SystemMenuRepository systemMenuRepository;
+    @Autowired
+    private SystemDictionaryRepository systemDictionaryRepository;
 
     @Override
     public void run(String... args) {
-        long menuCount = systemMenuRepository.count();
-        if(menuCount == 0){
+        if(systemMenuRepository.count() == 0){
             initMenu();
         }
 
-
-        long roleCount = systemRoleRepository.count();
-        if(roleCount == 0){
+        if(systemRoleRepository.count() == 0){
             initRole();
         }
 
-        long userCount = systemUserRepository.count();
-        if (userCount == 0) {
+        if (systemUserRepository.count() == 0) {
             initUser();
         }
+
+        if(systemDictionaryRepository.count() == 0){
+            initDictionary();
+        }
+
+    }
+
+    private void initDictionary() {
+        log.info("初始化系统配置");
+        createDictionary("alipay.gateway", "https://openapi.alipaydev.com/gateway.do", "阿里支付网关");
+        createDictionary("alipay.callback", "https://www.donluhitec.net/alipay/callback", "阿里支付回调地址");
+        createDictionary("wxpay.callback", "https://www.donluhitec.net/wxpay/callback", "微信支付回调地址");
+    }
+
+    private void createDictionary(String key, String value, String describe) {
+        SystemDictionary systemDictionary = new SystemDictionary();
+        systemDictionary.setKey(key);
+        systemDictionary.setValue(value);
+        systemDictionary.setDescribe(describe);
+        systemDictionaryRepository.save(systemDictionary);
     }
 
     private void initRole() {
         log.info("初始化系统角色");
         SystemRole systemRole = new SystemRole();
-        systemRole.setRoleCode("project");
         systemRole.setRoleName("项目管理员");
+        systemRole.setRoleDescribe("管理项目");
         systemRoleRepository.save(systemRole);
 
         SystemRole systemRole1 = new SystemRole();
-        systemRole1.setRoleCode("user");
         systemRole1.setRoleName("普通操作员");
+        systemRole1.setRoleDescribe("查询记录");
         systemRoleRepository.save(systemRole1);
     }
 
@@ -78,10 +89,11 @@ public class SystemInitCommand implements CommandLineRunner {
         saveSystemMenu(systemMenu1, "用户管理", "system/user", "menu");
         saveSystemMenu(systemMenu1, "角色管理", "system/role", "menu");
         saveSystemMenu(systemMenu1, "菜单管理", "system/menu", "menu");
+        saveSystemMenu(systemMenu1, "系统配置", "system/dictionary", "menu");
 
         SystemMenu systemMenu2 = saveSystemMenu(null, "支付管理", null, "folder");
 
-        saveSystemMenu(systemMenu2,"商户管理","pay/merchant","menu");
+        saveSystemMenu(systemMenu2,"项目管理","pay/project","menu");
         saveSystemMenu(systemMenu2,"微信支付","pay/weixinMerchant","menu");
         saveSystemMenu(systemMenu2,"支付宝支付","pay/zhifubaoMerchant","menu");
 

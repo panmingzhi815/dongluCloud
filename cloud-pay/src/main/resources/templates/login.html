@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{layuiadmin/layui/css/layui.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{layuiadmin/style/admin.css}"/>
+    <th:block th:insert="common/head.html"/>
     <link rel="stylesheet" type="text/css" th:href="@{layuiadmin/style/login.css}"/>
-    <script th:src="@{layuiadmin/layui/layui.js}"></script>
     <title>登录</title>
 </head>
 <body>
+
 <div class="kit-login">
+
     <div class="kit-login-bg"></div>
+    <th:block th:insert="common/top"/>
     <div class="kit-login-wapper">
         <h2 class="kit-login-slogan">欢迎使用 <br>支付管理平台</h2>
         <div class="kit-login-form">

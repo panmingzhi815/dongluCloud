@@ -23,7 +23,4 @@ public class SystemMenu extends BasicDomain {
     private SystemMenu parent;
     @OneToMany(mappedBy = "parent")
     private List<SystemMenu> children;
-    @ManyToOne
-    @JoinTable(name = "role_menu")
-    private SystemRole systemRole;
 }

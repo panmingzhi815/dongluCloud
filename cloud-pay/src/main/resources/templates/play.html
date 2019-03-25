@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="common/head.html"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/style/doc.css}"/>
+    <title>支付体验</title>
+</head>
+<body>
+<th:block th:insert="common/top"/>
+
+<div class="layui-container">
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>支付体验</legend>
+    </fieldset>
+    <div class="layui-row">
+        <div class="layui-col-md2">&nbsp;</div>
+        <div class="layui-col-md8">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">统一扫码</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <form class="layui-form layui-form-pane" action="pay.jsp" method="post">
+                            <div class="layui-form-item" pane="">
+                                <label class="layui-form-label">支付金额</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="totalfee" lay-filter="totalfee" value="0.01" title="0.01元" checked="">
+                                </div>
+                            </div>
+                            <div style="text-align:center;" class="qr-image">
+                                <img id="qrimg" th:src="@{/layuiadmin/img/code.jpg}" style="width: 200px">
+                            </div>
+                            <h2 style="text-align:center;color:red;"><span id="amount">0.01</span>元</h2>
+                            <h3 style="text-align:center;padding-top:5px;">请使用支付宝或微信手机客户端扫一扫</h3>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2">&nbsp;</div>
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{../layuiadmin/layui/css/layui.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{../layuiadmin/style/admin.css}"/>
-    <script th:src="@{../layuiadmin/layui/layui.js}"></script>
+    <th:block th:insert="common/head.html"/>
     <title>用户管理</title>
 </head>
 <body>
@@ -12,9 +9,9 @@
     <div class="layui-card">
         <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
             <div class="layui-inline">
-                <label class="layui-form-label" for="date1">用户名</label>
+                <label class="layui-form-label" for="username">用户名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="date" id="date1" autocomplete="off" class="layui-input">
+                    <input type="text" name="username" id="username" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline" style="margin-left: 10px;line-height: 30px">
@@ -50,7 +47,7 @@
 
         table.render({
             elem: '#table'
-            , height: 312
+            , height: 500
             , url: ctxPath + 'systemUser' //数据接口
             , page: true //开启分页
             , cols: [
@@ -107,6 +104,13 @@
                     table.reload('table');
                 }
             })
+        })
+        $("#search_btn").on('click',function () {
+            table.reload('table', {
+                where:{
+                    username:$('#username').val()
+                }
+            });
         })
     });
 </script>

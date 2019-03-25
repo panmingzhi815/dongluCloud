@@ -2,16 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="common/head.html"/>
-    <title>微信商户管理</title>
+    <title>商户管理</title>
 </head>
 <body>
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
             <div class="layui-inline">
-                <label class="layui-form-label" for="date1">用户名</label>
+                <label class="layui-form-label" for="name">商户名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="date" id="date1" autocomplete="off" class="layui-input">
+                    <input type="text" name="name" id="name" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline" style="margin-left: 10px;line-height: 30px">
@@ -43,14 +43,14 @@
         table.render({
             elem: '#table'
             , height: 500
-            , url: ctxPath + 'weixinMerchant' //数据接口
+            , url: ctxPath + 'project' //数据接口
             , page: true //开启分页
             , cols: [
                 [ //表头
-                    {title: '应用appId', field: 'appId', width: 200}
-                    , {title: '商户mchId', field: 'mchId', width: 200}
-                    , {title: '密钥appSecret', field: 'appSecret', width: 250}
-                    , {title: '密钥apiSecret', field: 'apiSecret', width: 250}
+                    {field: 'code', title: '商户编码', width: 150}
+                    , {field: 'name', title: '商户名称', width: 150}
+                    , {field: 'tel', title: '联系电话', width: 250}
+                    , {field: 'email', title: '电子邮箱', width: 250}
                     , {title: '创建时间', field: 'create', width: 250}
                     , {title: "操作", align: "left", fixed: "right", toolbar: "#table-edit"}
                 ]
@@ -64,7 +64,7 @@
                 layer.open({
                     type: 2,
                     title: "编辑商户",
-                    content: [ctxPath + "weixinMerchant_info/"+data.id, 'no'],
+                    content: [ctxPath + "project_info/"+data.id, 'no'],
                     area: ["420px", "420px"],
                     btn: ["确定", "取消"],
                     yes: function (index, layero) {
@@ -89,7 +89,7 @@
             layer.open({
                 type: 2,
                 title: "添加商户",
-                content: [ctxPath + "weixinMerchant_info", 'no'],
+                content: [ctxPath + "project_info", 'no'],
                 area: ["420px", "420px"],
                 btn: ["确定", "取消"],
                 yes: function (index, layero) {
@@ -99,6 +99,14 @@
                     table.reload('table');
                 }
             })
+        })
+
+        $("#search_btn").on('click',function () {
+            table.reload('table', {
+                where:{
+                    name:$('#name').val()
+                }
+            });
         })
     });
 </script>

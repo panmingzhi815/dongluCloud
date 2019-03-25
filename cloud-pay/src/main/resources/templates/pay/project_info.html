@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{../layuiadmin/layui/css/layui.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{../layuiadmin/style/admin.css}"/>
-    <script th:src="@{../layuiadmin/layui/layui.js}"></script>
+    <th:block th:insert="common/head.html"/>
     <title>商户管理</title>
 </head>
 <body>
@@ -51,7 +48,7 @@
             var type = json['id'] === '' ? 'POST':'PUT';
             $.ajax({
                 type: type,
-                url: ctxPath + "merchant",
+                url: ctxPath + "project",
                 data: JSON.stringify(json),
                 contentType: 'application/json',
                 success: function (ret) {

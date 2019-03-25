@@ -17,6 +17,6 @@ public class SystemUser extends DateTimeDomain {
     private String email;
     @Enumerated(value = EnumType.STRING)
     private SystemUserStateEnum stateEnum;
-    @OneToMany(mappedBy = "systemUser")
+    @ManyToMany
     private List<SystemRole> systemRoleList;
 }

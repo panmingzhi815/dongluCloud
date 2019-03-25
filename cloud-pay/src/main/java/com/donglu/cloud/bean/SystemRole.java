@@ -3,21 +3,18 @@ package com.donglu.cloud.bean;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-public class SystemRole extends BasicDomain {
+public class SystemRole extends DateTimeDomain {
     private String roleName;
-    private String roleCode;
-    @OneToMany(mappedBy = "systemRole")
-    private List<SystemMenu> systemMenuList;
-    @ManyToOne
-    @JoinTable(name = "user_role")
-    private SystemUser systemUser;
+    private String roleDescribe;
+    @OneToMany
+    private List<SystemMenu> systemMenuList = new ArrayList<>();
+    @ManyToMany
+    private List<SystemUser> systemUserList = new ArrayList<>();
 }

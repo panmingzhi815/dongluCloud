@@ -19,10 +19,13 @@ public class ViewController implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("login");
         registry.addViewController("console");
+        registry.addViewController("doc");
+        registry.addViewController("play");
         registry.addViewController("system/user");
         registry.addViewController("system/role");
         registry.addViewController("system/menu");
-        registry.addViewController("pay/merchant");
+        registry.addViewController("system/dictionary");
+        registry.addViewController("pay/project");
         registry.addViewController("pay/weixinMerchant");
         registry.addViewController("pay/zhifubaoMerchant");
     }

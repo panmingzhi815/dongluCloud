@@ -2,26 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="common/head.html"/>
-    <title>微信商户管理</title>
+    <title>系统配置</title>
 </head>
 <body>
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
             <div class="layui-inline">
-                <label class="layui-form-label" for="date1">用户名</label>
+                <label class="layui-form-label" for="key">标识</label>
                 <div class="layui-input-block">
-                    <input type="text" name="date" id="date1" autocomplete="off" class="layui-input">
+                    <input type="text" name="key" id="key" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline" style="margin-left: 10px;line-height: 30px">
                 <button class="layui-btn" id="search_btn">查询</button>
                 <button class="layui-btn" id="add_btn">添加</button>
             </div>
+
         </div>
 
         <div class="layui-card-body">
             <table id="table" lay-filter="table"></table>
+
+            <script type="text/html" id="buttonTpl">
+                <button class="layui-btn layui-btn-primary layui-btn-xs">{{d.stateEnum}}</button>
+            </script>
 
             <script type="text/html" id="table-edit">
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
@@ -43,15 +48,15 @@
         table.render({
             elem: '#table'
             , height: 500
-            , url: ctxPath + 'weixinMerchant' //数据接口
+            , url: ctxPath + 'dictionary' //数据接口
             , page: true //开启分页
             , cols: [
                 [ //表头
-                    {title: '应用appId', field: 'appId', width: 200}
-                    , {title: '商户mchId', field: 'mchId', width: 200}
-                    , {title: '密钥appSecret', field: 'appSecret', width: 250}
-                    , {title: '密钥apiSecret', field: 'apiSecret', width: 250}
-                    , {title: '创建时间', field: 'create', width: 250}
+                    {field: 'key', title: '标识', width: 150}
+                    , {field: 'value', title: '内容', width: 350}
+                    , {field: 'describe', title: '描述', width: 250}
+                    , {field: 'create', title: '创建时间', width: 250}
+                    , {field: 'update', title: '修改时间', width: 250}
                     , {title: "操作", align: "left", fixed: "right", toolbar: "#table-edit"}
                 ]
             ]
@@ -63,8 +68,8 @@
             if(obj.event === 'edit'){
                 layer.open({
                     type: 2,
-                    title: "编辑商户",
-                    content: [ctxPath + "weixinMerchant_info/"+data.id, 'no'],
+                    title: "编辑参数",
+                    content: [ctxPath + "dictionary_info/"+data.id, 'no'],
                     area: ["420px", "420px"],
                     btn: ["确定", "取消"],
                     yes: function (index, layero) {
@@ -88,8 +93,8 @@
         $("#add_btn").on('click',function () {
             layer.open({
                 type: 2,
-                title: "添加商户",
-                content: [ctxPath + "weixinMerchant_info", 'no'],
+                title: "添加参数",
+                content: [ctxPath + "dictionary_info", 'no'],
                 area: ["420px", "420px"],
                 btn: ["确定", "取消"],
                 yes: function (index, layero) {
@@ -99,6 +104,14 @@
                     table.reload('table');
                 }
             })
+        })
+
+        $("#search_btn").on('click',function () {
+            table.reload('table', {
+                where:{
+                    key:$('#key').val()
+                }
+            });
         })
     });
 </script>

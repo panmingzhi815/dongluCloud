@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{layuiadmin/layui/css/layui.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{layuiadmin/style/admin.css}"/>
-    <script th:src="@{layuiadmin/layui/layui.js}"></script>
+    <th:block th:insert="common/head.html"/>
     <title>管理平台</title>
 </head>
 <body class="layui-layout-body">
@@ -49,7 +46,7 @@
         <div class="layui-side layui-side-menu">
             <div class="layui-side-scroll">
                 <div class="layui-logo" lay-href="home/console.html" style="text-align: left;color: white;font-size: 13pt">
-                    <img th:src="@{layuiadmin/img/logo.png}" style="width: 25px">
+                    <!--<img th:src="@{layuiadmin/img/logo.png}" style="width: 25px">-->
                     <span style="margin-left: 10px">支付管理平台</span>
                 </div>
 

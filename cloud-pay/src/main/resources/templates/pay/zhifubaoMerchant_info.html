@@ -6,33 +6,33 @@
 </head>
 <body>
 <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
-    <input type="hidden" name="id" th:value="${ weixinMerchant.id}">
+    <input type="hidden" name="id" th:value="${ zhifubaoMerchant.id}">
     <div class="layui-form-item">
         <label class="layui-form-label">应用appId</label>
         <div class="layui-input-inline">
-            <input type="text" name="appId" th:value="${ weixinMerchant.appId}" lay-verify="required"
+            <input type="text" name="appId" th:value="${ zhifubaoMerchant.appId}" lay-verify="required"
                    placeholder="请输入应用appId" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">商户mchId</label>
         <div class="layui-input-inline">
-            <input type="text" name="mchId" th:value="${ weixinMerchant.mchId}" lay-verify="required"
+            <input type="text" name="mchId" th:value="${ zhifubaoMerchant.mchId}" lay-verify="required"
                    placeholder="请输入商户mchId" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">app密钥</label>
+        <label class="layui-form-label">支付公钥</label>
         <div class="layui-input-inline">
-            <input type="text" name="appSecret" th:value="${ weixinMerchant.appSecret}" lay-verify="required" placeholder="请输入密钥appSecret"
-                   autocomplete="off" class="layui-input">
+            <textarea type="text" name="alipayPublicKey" th:text="${ zhifubaoMerchant.alipayPublicKey}" lay-verify="required" placeholder="请输入支付公钥alipayPublicKey"
+                      autocomplete="off" class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">api密钥</label>
+        <label class="layui-form-label">应用私钥</label>
         <div class="layui-input-inline">
-            <input type="text" name="apiSecret" th:value="${ weixinMerchant.apiSecret}" lay-verify="required" placeholder="请输入密钥apiSecret"
-                   autocomplete="off" class="layui-input">
+            <textarea type="text" name="appPrivateKey" th:text="${ zhifubaoMerchant.appPrivateKey}" lay-verify="required" placeholder="请输入应用私钥appPrivateKey"
+                   autocomplete="off" class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item layui-hide">
@@ -48,7 +48,7 @@
             var type = json['id'] === '' ? 'POST':'PUT';
             $.ajax({
                 type: type,
-                url: ctxPath + "weixinMerchant",
+                url: ctxPath + "zhifubaoMerchant",
                 data: JSON.stringify(json),
                 contentType: 'application/json',
                 success: function (ret) {

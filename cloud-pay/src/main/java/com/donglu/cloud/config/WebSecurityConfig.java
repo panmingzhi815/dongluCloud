@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**", "/favicon.ico","/layuiadmin/**");
+        web.ignoring().antMatchers("/resources/**", "/favicon.ico","/layuiadmin/**","/img/**");
     }
 
     @Override
