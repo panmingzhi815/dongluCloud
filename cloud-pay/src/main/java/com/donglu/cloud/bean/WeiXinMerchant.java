@@ -3,21 +3,23 @@ package com.donglu.cloud.bean;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 public class WeiXinMerchant extends DateTimeDomain {
+    //商户名称
+    private String appName;
+    //微信分配的公众账号ID
     private String appId;
+    //微信支付分配的商户号
     private String mchId;
-    private String appSecret;
-    private String apiSecret;
-    @ManyToOne
-    private WeiXinMerchant parent;
-    @OneToMany(mappedBy = "parent")
-    private List<WeiXinMerchant> children;
+    //微信支付sign签名加密密钥
+    private String appKey;
+    //服务商商户号
+    private String serviceMchId;
+    @ManyToOne(optional = false)
+    private Project project;
 }

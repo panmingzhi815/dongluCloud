@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">>
 <head>
     <th:block th:insert="common/head.html"/>
     <title>管理平台</title>
@@ -30,10 +31,9 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;">
-                        <cite>贤心</cite>
+                        <cite th:text="${user.username}"></cite>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="set/user/info.html">基本资料</a></dd>
                         <dd><a lay-href="set/user/password.html">修改密码</a></dd>
                         <hr>
                         <dd style="text-align: center;"><a th:href="@{/login?logout}">退出</a></dd>
@@ -52,7 +52,7 @@
 
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
-                    <li data-name="home" class="layui-nav-item" th:each="menu:${menus}">
+                    <li data-name="home" class="layui-nav-item" th:each="menu:${menus}" th:if="${#strings.contains(menu.menuCode,user.authorities)}">
                         <a href="javascript:;">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite th:text="${menu.menuName}"></cite>

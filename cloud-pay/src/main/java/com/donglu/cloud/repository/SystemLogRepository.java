@@ -1,10 +1,12 @@
 package com.donglu.cloud.repository;
 
-import com.donglu.cloud.bean.SystemRole;
+import com.donglu.cloud.bean.SystemDictionary;
+import com.donglu.cloud.bean.SystemLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SystemRoleRepository extends JpaRepository<SystemRole, String>, QuerydslPredicateExecutor<SystemRole> {
+public interface SystemLogRepository extends JpaRepository<SystemLog, String>, QuerydslPredicateExecutor<SystemLog> {
+
 }

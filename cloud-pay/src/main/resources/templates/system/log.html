@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="common/head.html"/>
+    <title>系统配置</title>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-inline">
+                <label class="layui-form-label">起始时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="startTime" placeholder="起始时间">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">截止时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="endTime" placeholder="截止时间">
+                </div>
+            </div>
+            <div class="layui-inline" style="margin-left: 10px;line-height: 30px">
+                <button class="layui-btn" id="search_btn">查询</button>
+                <button class="layui-btn" id="add_btn">删除选中</button>
+            </div>
+
+        </div>
+
+        <div class="layui-card-body">
+            <table id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var ctxPath = /*[[@{/}]]*/ '';
+    layui.use(['form', 'table','layer','laydate'], function () {
+        var $ = layui.$, form = layui.form, table = layui.table,layer = layui.layer;
+        var laydate = layui.laydate;
+
+        table.render({
+            elem: '#table'
+            , height: 500
+            , url: ctxPath + 'log' //数据接口
+            , page: true //开启分页
+            , cols: [
+                [ //表头
+                    {type:'checkbox'}
+                    ,{field: 'title', title: '标题', width: 150}
+                    , {field: 'methodType', title: '功能', width: 200}
+                    , {field: 'userName', title: '用户', width: 150}
+                    , {field: 'ip', title: 'ip地址', width: 150}
+                    , {field: 'url', title: '请求url', width: 200}
+                    , {field: 'status', title: '状态', width: 100}
+                    , {field: 'create', title: '操作时间', width: 250}
+                ]
+            ]
+        });
+
+        laydate.render({
+            elem: '#startTime'
+            ,type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#endTime'
+            ,type: 'datetime'
+        });
+
+        $("#search_btn").on('click',function () {
+            table.reload('table', {
+                where:{
+                    startTime:$('#startTime').val(),
+                    endTime:$('#endTime').val()
+                }
+            });
+        })
+    });
+</script>
+</body>
+</html>

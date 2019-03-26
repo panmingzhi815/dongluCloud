@@ -8,6 +8,21 @@
 <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
     <input type="hidden" name="id" th:value="${ zhifubaoMerchant.id}">
     <div class="layui-form-item">
+        <label class="layui-form-label">项目</label>
+        <div class="layui-input-inline">
+            <select name="project" lay-verify="required" th:value="${ zhifubaoMerchant.project == null ? '':zhifubaoMerchant.project.id}">
+                <option th:each="pro:${projects}" th:value="${pro.id}" th:text="${pro.name}"></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商户名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="appName" th:value="${ zhifubaoMerchant.appName}" lay-verify="required"
+                   placeholder="请输入商户名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">应用appId</label>
         <div class="layui-input-inline">
             <input type="text" name="appId" th:value="${ zhifubaoMerchant.appId}" lay-verify="required"
@@ -15,14 +30,14 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">商户mchId</label>
+        <label class="layui-form-label">商户号</label>
         <div class="layui-input-inline">
             <input type="text" name="mchId" th:value="${ zhifubaoMerchant.mchId}" lay-verify="required"
-                   placeholder="请输入商户mchId" autocomplete="off" class="layui-input">
+                   placeholder="请输入商户号mchId" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">支付公钥</label>
+        <label class="layui-form-label">阿里公钥</label>
         <div class="layui-input-inline">
             <textarea type="text" name="alipayPublicKey" th:text="${ zhifubaoMerchant.alipayPublicKey}" lay-verify="required" placeholder="请输入支付公钥alipayPublicKey"
                       autocomplete="off" class="layui-textarea"></textarea>
@@ -46,6 +61,7 @@
         form.on('submit(submit)', function(data){
             var json = data.field;
             var type = json['id'] === '' ? 'POST':'PUT';
+            json['project'] = {"id":json['project']};
             $.ajax({
                 type: type,
                 url: ctxPath + "zhifubaoMerchant",

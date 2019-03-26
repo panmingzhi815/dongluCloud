@@ -22,13 +22,22 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-inline">
+            <select name="role" lay-verify="required" th:value="${ systemUser.role}">
+                <option value="USER">项目管理</option>
+                <option value="ADMIN">系统管理</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">邮箱</label>
         <div class="layui-input-inline">
             <input type="text" name="email" th:value="${ systemUser.email}" lay-verify="email" placeholder="请输入电子邮箱"
                    autocomplete="off" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" th:if="${systemUser.username != 'admin'}">
         <label class="layui-form-label">状态</label>
         <div class="layui-input-inline">
             <input type="checkbox" lay-filter="switch" name="stateEnum" lay-skin="switch" lay-text="正常|禁用"

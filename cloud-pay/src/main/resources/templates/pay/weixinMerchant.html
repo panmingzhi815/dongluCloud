@@ -9,9 +9,15 @@
     <div class="layui-card">
         <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
             <div class="layui-inline">
-                <label class="layui-form-label" for="date1">用户名</label>
+                <label class="layui-form-label" for="appName">商户名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="date" id="date1" autocomplete="off" class="layui-input">
+                    <input type="text" name="appName" id="appName" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" for="serviceMchId">服务商号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="serviceMchId" id="serviceMchId" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline" style="margin-left: 10px;line-height: 30px">
@@ -22,6 +28,10 @@
 
         <div class="layui-card-body">
             <table id="table" lay-filter="table"></table>
+
+            <script type="text/html" id="buttonTpl">
+                <span>{{d.project.name}}</span>
+            </script>
 
             <script type="text/html" id="table-edit">
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
@@ -47,11 +57,13 @@
             , page: true //开启分页
             , cols: [
                 [ //表头
-                    {title: '应用appId', field: 'appId', width: 200}
-                    , {title: '商户mchId', field: 'mchId', width: 200}
-                    , {title: '密钥appSecret', field: 'appSecret', width: 250}
-                    , {title: '密钥apiSecret', field: 'apiSecret', width: 250}
+                    {title: '商户名称', field: 'appName', width: 200}
+                    ,{title: '公众号', field: 'appId', width: 200}
+                    , {title: '商户号', field: 'mchId', width: 200}
+                    , {title: '服务商', field: 'serviceMchId', width: 250}
+                    , {title: '项目名称', field: 'project', width: 100,toolbar: "#buttonTpl"}
                     , {title: '创建时间', field: 'create', width: 250}
+                    , {title: '创建时间', field: 'update', width: 250}
                     , {title: "操作", align: "left", fixed: "right", toolbar: "#table-edit"}
                 ]
             ]
@@ -65,7 +77,7 @@
                     type: 2,
                     title: "编辑商户",
                     content: [ctxPath + "weixinMerchant_info/"+data.id, 'no'],
-                    area: ["420px", "420px"],
+                    area: ["420px", "520px"],
                     btn: ["确定", "取消"],
                     yes: function (index, layero) {
                         var submit = layero.find('iframe').contents().find("#submit");
@@ -90,7 +102,7 @@
                 type: 2,
                 title: "添加商户",
                 content: [ctxPath + "weixinMerchant_info", 'no'],
-                area: ["420px", "420px"],
+                area: ["420px", "520px"],
                 btn: ["确定", "取消"],
                 yes: function (index, layero) {
                     var submit = layero.find('iframe').contents().find("#submit");
@@ -99,6 +111,14 @@
                     table.reload('table');
                 }
             })
+        })
+
+        $("#search_btn").on('click',function () {
+            table.reload('table', {
+                where:{
+                    appName:$('#appName').val()
+                }
+            });
         })
     });
 </script>

@@ -1,6 +1,9 @@
 package com.donglu.cloud.controller;
 
-import com.donglu.cloud.bean.*;
+import com.donglu.cloud.bean.MsgCode;
+import com.donglu.cloud.bean.MsgResponse;
+import com.donglu.cloud.bean.QSystemDictionary;
+import com.donglu.cloud.bean.SystemDictionary;
 import com.donglu.cloud.repository.SystemDictionaryRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.apache.commons.lang3.StringUtils;
@@ -22,16 +25,16 @@ public class SystemDictionaryController {
 
     @GetMapping("/dictionary")
     @ResponseBody
-    public MsgResponse getList(@RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "10") Integer limit, @RequestParam(required = false)String key) {
+    public MsgResponse getList(@RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "10") Integer limit, @RequestParam(required = false) String key) {
         BooleanExpression notNull = QSystemDictionary.systemDictionary.id.isNotNull();
-        if(StringUtils.isNotBlank(key)){
+        if (StringUtils.isNotBlank(key)) {
             notNull = notNull.and(QSystemDictionary.systemDictionary.key.like("%" + key + "%"));
         }
-        Page<SystemDictionary> all = systemDictionaryRepository.findAll(notNull,PageRequest.of(page - 1, limit));
+        Page<SystemDictionary> all = systemDictionaryRepository.findAll(notNull, PageRequest.of(page - 1, limit));
         return MsgResponse.success(0, "", all.getTotalElements(), all.getContent());
     }
 
-    @PutMapping("/dictionary")
+    @PutMapping(value = "/dictionary",name = "修改配置")
     @ResponseBody
     public MsgResponse update(@RequestBody SystemDictionary dictionary) {
         Optional<SystemDictionary> byId = systemDictionaryRepository.findById(dictionary.getId());
@@ -48,7 +51,7 @@ public class SystemDictionaryController {
 
     }
 
-    @PostMapping("/dictionary")
+    @PostMapping(value = "/dictionary",name = "添加配置")
     @ResponseBody
     public MsgResponse save(@RequestBody SystemDictionary dictionary) {
         systemDictionaryRepository.save(dictionary);

@@ -2,8 +2,6 @@ package com.donglu.cloud.bean;
 
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * @author panmingzhi815
  * 消息响应格式
@@ -27,7 +25,7 @@ public class MsgResponse {
     }
 
     public static MsgResponse success(Integer code, String msg) {
-        return success(code,msg,null,null);
+        return success(code, msg, null, null);
     }
 
     public static MsgResponse fail(MsgCode msgCode) {

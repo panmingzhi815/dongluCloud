@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -15,8 +14,7 @@ public class SystemUser extends DateTimeDomain {
     private String password;
     private String nickName;
     private String email;
+    private String role;
     @Enumerated(value = EnumType.STRING)
     private SystemUserStateEnum stateEnum;
-    @ManyToMany
-    private List<SystemRole> systemRoleList;
 }

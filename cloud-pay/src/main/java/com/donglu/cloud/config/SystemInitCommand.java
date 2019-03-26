@@ -1,7 +1,10 @@
 package com.donglu.cloud.config;
 
 import com.donglu.cloud.bean.*;
-import com.donglu.cloud.repository.*;
+import com.donglu.cloud.repository.ProjectRepository;
+import com.donglu.cloud.repository.SystemDictionaryRepository;
+import com.donglu.cloud.repository.SystemMenuRepository;
+import com.donglu.cloud.repository.SystemUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,30 +19,40 @@ public class SystemInitCommand implements CommandLineRunner {
     @Autowired
     private SystemUserRepository systemUserRepository;
     @Autowired
-    private SystemRoleRepository systemRoleRepository;
-    @Autowired
     private SystemMenuRepository systemMenuRepository;
     @Autowired
     private SystemDictionaryRepository systemDictionaryRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @Override
     public void run(String... args) {
-        if(systemMenuRepository.count() == 0){
+        if (systemMenuRepository.count() == 0) {
             initMenu();
-        }
-
-        if(systemRoleRepository.count() == 0){
-            initRole();
         }
 
         if (systemUserRepository.count() == 0) {
             initUser();
         }
 
-        if(systemDictionaryRepository.count() == 0){
+        if (systemDictionaryRepository.count() == 0) {
             initDictionary();
         }
 
+        if (projectRepository.count() == 0) {
+            initProject();
+        }
+    }
+
+    private void initProject() {
+        log.info("初始化项目信息");
+        Project project = new Project();
+        project.setCode("10001");
+        project.setName("默认项目");
+        project.setAddress("深圳市宝田三路66号");
+        project.setEmail("154341736@qq.com");
+        project.setTel("18589024202");
+        projectRepository.save(project);
     }
 
     private void initDictionary() {
@@ -57,53 +70,41 @@ public class SystemInitCommand implements CommandLineRunner {
         systemDictionaryRepository.save(systemDictionary);
     }
 
-    private void initRole() {
-        log.info("初始化系统角色");
-        SystemRole systemRole = new SystemRole();
-        systemRole.setRoleName("项目管理员");
-        systemRole.setRoleDescribe("管理项目");
-        systemRoleRepository.save(systemRole);
-
-        SystemRole systemRole1 = new SystemRole();
-        systemRole1.setRoleName("普通操作员");
-        systemRole1.setRoleDescribe("查询记录");
-        systemRoleRepository.save(systemRole1);
-    }
-
     private void initUser() {
         log.info("初始化系统登录用户");
         SystemUser systemUser = new SystemUser();
         systemUser.setStateEnum(SystemUserStateEnum.正常);
         systemUser.setUsername("admin");
+        systemUser.setNickName("超管");
         systemUser.setEmail("154341736@qq.com");
         systemUser.setPassword(passwordEncoder.encode("123456"));
-        systemUser.setNickName("系统管理员");
+        systemUser.setRole("ADMIN");
         systemUserRepository.save(systemUser);
     }
 
     private void initMenu() {
         log.info("初始化系统菜单");
 
-        SystemMenu systemMenu1 = saveSystemMenu(null, "系统管理", null, "folder");
+        SystemMenu systemMenu1 = saveSystemMenu(null, "系统管理", null, "folder", "ADMIN");
 
-        saveSystemMenu(systemMenu1, "用户管理", "system/user", "menu");
-        saveSystemMenu(systemMenu1, "角色管理", "system/role", "menu");
-        saveSystemMenu(systemMenu1, "菜单管理", "system/menu", "menu");
-        saveSystemMenu(systemMenu1, "系统配置", "system/dictionary", "menu");
+        saveSystemMenu(systemMenu1, "用户管理", "system/user", "menu", "ADMIN");
+        saveSystemMenu(systemMenu1, "系统配置", "system/dictionary", "menu", "ADMIN");
+        saveSystemMenu(systemMenu1, "系统日志", "system/log", "menu", "ADMIN");
 
-        SystemMenu systemMenu2 = saveSystemMenu(null, "支付管理", null, "folder");
+        SystemMenu systemMenu2 = saveSystemMenu(null, "支付管理", null, "folder", "ADMIN");
 
-        saveSystemMenu(systemMenu2,"项目管理","pay/project","menu");
-        saveSystemMenu(systemMenu2,"微信支付","pay/weixinMerchant","menu");
-        saveSystemMenu(systemMenu2,"支付宝支付","pay/zhifubaoMerchant","menu");
+        saveSystemMenu(systemMenu2, "项目管理", "pay/project", "menu", "ADMIN");
+        saveSystemMenu(systemMenu2, "微信商户", "pay/weixinMerchant", "menu", "ADMIN");
+        saveSystemMenu(systemMenu2, "支付宝商户", "pay/zhifubaoMerchant", "menu", "ADMIN");
 
-        SystemMenu systemMenu3 = saveSystemMenu(null, "订单管理", null, "folder");
-        saveSystemMenu(systemMenu3,"支付订单","order/pay","menu");
-        saveSystemMenu(systemMenu3,"退款记录","order/refund","menu");
+        SystemMenu systemMenu3 = saveSystemMenu(null, "订单管理", null, "folder", "ADMIN,USER");
+        saveSystemMenu(systemMenu3, "支付订单", "order/pay", "menu", "ADMIN,USER");
+        saveSystemMenu(systemMenu3, "退款记录", "order/refund", "menu", "ADMIN,USER ");
     }
 
-    public SystemMenu saveSystemMenu(SystemMenu parent, String menuName, String menuUrl, String menuType){
+    public SystemMenu saveSystemMenu(SystemMenu parent, String menuName, String menuUrl, String menuType, String menuCode) {
         SystemMenu systemMenu3 = new SystemMenu();
+        systemMenu3.setMenuCode(menuCode);
         systemMenu3.setParent(parent);
         systemMenu3.setMenuName(menuName);
         systemMenu3.setMenuUrl(menuUrl);
