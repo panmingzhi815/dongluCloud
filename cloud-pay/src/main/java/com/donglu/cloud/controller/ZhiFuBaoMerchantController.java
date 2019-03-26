@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/pay")
 public class ZhiFuBaoMerchantController {
 
     @Autowired
@@ -47,6 +48,13 @@ public class ZhiFuBaoMerchantController {
     @ResponseBody
     public MsgResponse AddMerchant(@RequestBody ZhiFuBaoMerchant merchant) {
         zhiFuBaoMerchantRepository.save(merchant);
+        return MsgResponse.success(0, "操作成功");
+    }
+
+    @DeleteMapping(value = "/zhifubaoMerchant/{id}", name = "删除支付宝商户")
+    @ResponseBody
+    public MsgResponse DelMerchant(@PathVariable String id) {
+        zhiFuBaoMerchantRepository.deleteById(id);
         return MsgResponse.success(0, "操作成功");
     }
 

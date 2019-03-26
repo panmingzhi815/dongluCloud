@@ -24,9 +24,9 @@ public class ViewController implements WebMvcConfigurer {
         registry.addViewController("system/user");
         registry.addViewController("system/log");
         registry.addViewController("system/dictionary");
-        registry.addViewController("pay/project");
-        registry.addViewController("pay/weixinMerchant");
-        registry.addViewController("pay/zhifubaoMerchant");
+        registry.addViewController("pay/projectTpl");
+        registry.addViewController("pay/weixinMerchantTpl");
+        registry.addViewController("pay/zhifubaoMerchantTpl");
     }
 
     @Bean

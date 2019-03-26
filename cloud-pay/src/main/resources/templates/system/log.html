@@ -75,6 +75,35 @@
                 }
             });
         })
+        $("#add_btn").on('click',function () {
+            var checkStatus = table.checkStatus('table');
+            if(checkStatus.data.length == 0){
+                layer.msg("请先勾选要删除的项");
+                return;
+            }
+            layer.confirm('确定要删除吗?', function(index){
+                var ids = new Array();
+                for(var i=0;i<checkStatus.data.length;i++){
+                    ids.push(checkStatus.data[i].id);
+                }
+                $.ajax({
+                    type: 'DELETE',
+                    url: ctxPath + "log",
+                    data: {ids:ids},
+                    dataType:"json",
+                    contentType:"application/x-www-form-urlencoded",
+                    success: function (ret) {
+                        if(ret.success){
+                            layer.msg(ret.msg);
+                            table.reload('table');
+                        }else{
+                            layer.msg("操作失败")
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        })
     });
 </script>
 </body>

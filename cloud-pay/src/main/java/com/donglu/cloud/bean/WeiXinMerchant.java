@@ -3,8 +3,8 @@ package com.donglu.cloud.bean;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -20,6 +20,8 @@ public class WeiXinMerchant extends DateTimeDomain {
     private String appKey;
     //服务商商户号
     private String serviceMchId;
+    //退款P12证书路径
+    private String certPath;
     @ManyToOne(optional = false)
     private Project project;
 }

@@ -1,21 +1,22 @@
 package com.donglu.cloud.controller;
 
-import com.donglu.cloud.bean.*;
-import com.donglu.cloud.repository.SystemDictionaryRepository;
+import com.donglu.cloud.bean.MsgResponse;
+import com.donglu.cloud.bean.QSystemLog;
+import com.donglu.cloud.bean.SystemLog;
 import com.donglu.cloud.repository.SystemLogRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class SystemLogController {
@@ -36,6 +37,16 @@ public class SystemLogController {
         }
         Page<SystemLog> all = systemLogRepository.findAll(notNull, PageRequest.of(page - 1, limit));
         return MsgResponse.success(0, "", all.getTotalElements(), all.getContent());
+    }
+
+    @DeleteMapping("/log")
+    @ResponseBody
+    @Transactional
+    public MsgResponse delList(@RequestParam(value = "ids[]") String[] ids) {
+        for (String id : ids) {
+            systemLogRepository.deleteById(id);
+        }
+        return MsgResponse.success(0,"操作成功");
     }
 
 }

@@ -43,7 +43,7 @@
         table.render({
             elem: '#table'
             , height: 500
-            , url: ctxPath + 'project' //数据接口
+            , url: ctxPath + 'pay/project' //数据接口
             , page: true //开启分页
             , cols: [
                 [ //表头
@@ -64,7 +64,7 @@
                 layer.open({
                     type: 2,
                     title: "编辑商户",
-                    content: [ctxPath + "project_info/"+data.id, 'no'],
+                    content: [ctxPath + "pay/project_info/"+data.id, 'no'],
                     area: ["420px", "420px"],
                     btn: ["确定", "取消"],
                     yes: function (index, layero) {
@@ -77,8 +77,20 @@
             }
 
             if(obj.event === 'del'){ //删除
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
+                layer.confirm('确定要删除选中行吗', function(index){
+                    $.ajax({
+                        type: 'DELETE',
+                        url: ctxPath + "pay/project/" + data.id,
+                        dataType:"json",
+                        success: function (ret) {
+                            if(ret.success){
+                                layer.msg(ret.msg);
+                                table.reload('table');
+                            }else{
+                                layer.msg("操作失败")
+                            }
+                        }
+                    });
                     layer.close(index);
                 });
             }
@@ -89,7 +101,7 @@
             layer.open({
                 type: 2,
                 title: "添加商户",
-                content: [ctxPath + "project_info", 'no'],
+                content: [ctxPath + "pay/project_info", 'no'],
                 area: ["420px", "420px"],
                 btn: ["确定", "取消"],
                 yes: function (index, layero) {

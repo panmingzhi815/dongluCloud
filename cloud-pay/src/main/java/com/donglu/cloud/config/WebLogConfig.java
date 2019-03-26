@@ -5,15 +5,19 @@ import com.donglu.cloud.bean.SystemLog;
 import com.donglu.cloud.repository.SystemLogRepository;
 import com.donglu.cloud.utils.UserAgentUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -79,33 +83,38 @@ public class WebLogConfig {
         String ip = request.getRemoteAddr();
         String method = request.getMethod();
         String url = request.getRequestURI();
-        if (method.contains("GET")) {
-            return;
-        }
-        log.info("----------------------------------------------------------");
-        log.info("开始记录数据库日志");
 
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         PutMapping putMapping = methodSignature.getMethod().getDeclaredAnnotation(PutMapping.class);
         PostMapping postMapping = methodSignature.getMethod().getDeclaredAnnotation(PostMapping.class);
         DeleteMapping deleteMapping = methodSignature.getMethod().getDeclaredAnnotation(DeleteMapping.class);
+        GetMapping getMapping = methodSignature.getMethod().getDeclaredAnnotation(GetMapping.class);
 
         String putName = Optional.ofNullable(putMapping).map(PutMapping::name).orElse("");
         String postName = Optional.ofNullable(postMapping).map(PostMapping::name).orElse("");
         String deleteName = Optional.ofNullable(deleteMapping).map(DeleteMapping::name).orElse("");
+        String getName = Optional.ofNullable(getMapping).map(GetMapping::name).orElse("");
+        String title = putName + postName + deleteName + getName;
+        if (StringUtils.isEmpty(title)) {
+            return;
+        }
+
+        log.info("----------------------------------------------------------");
+        log.info("开始记录数据库日志");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = Optional.ofNullable(authentication).map(Principal::getName).orElse("访客");
+        String username = Optional.ofNullable(authentication).map(Principal::getName).orElse("平台");
 
         SystemLog systemLog = new SystemLog();
         systemLog.setIp(ip);
         systemLog.setUrl(url);
         systemLog.setMethodType(method);
-        systemLog.setTitle(putName + postName + deleteName);
+
+        systemLog.setTitle(title);
         systemLog.setStatus(response.getStatus());
         systemLog.setUserName(username);
         systemLogRepository.save(systemLog);
-        log.info("开始记录数据库日志结束:{}",systemLog);
+        log.info("记录数据库日志结束:{}",systemLog);
         log.info("----------------------------------------------------------");
     }
 

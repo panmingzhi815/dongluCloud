@@ -58,6 +58,13 @@ public class SystemDictionaryController {
         return MsgResponse.success(0, "操作成功");
     }
 
+    @DeleteMapping(value = "/dictionary/{id}",name = "删除配置")
+    @ResponseBody
+    public MsgResponse del(@PathVariable String id) {
+        systemDictionaryRepository.deleteById(id);
+        return MsgResponse.success(0, "操作成功");
+    }
+
     @GetMapping("/dictionary_info/{id}")
     public String redirectEditPage(@PathVariable String id, Model model) {
         Optional<SystemDictionary> one = systemDictionaryRepository.findOne(QSystemDictionary.systemDictionary.id.eq(id));

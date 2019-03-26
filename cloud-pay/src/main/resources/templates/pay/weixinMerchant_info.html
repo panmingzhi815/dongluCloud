@@ -64,7 +64,7 @@
             json['project'] = {"id":json['project']};
             $.ajax({
                 type: type,
-                url: ctxPath + "weixinMerchant",
+                url: ctxPath + "pay/weixinMerchant",
                 data: JSON.stringify(json),
                 contentType: 'application/json',
                 success: function (ret) {

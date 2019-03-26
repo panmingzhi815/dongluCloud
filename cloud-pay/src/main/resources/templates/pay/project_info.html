@@ -48,7 +48,7 @@
             var type = json['id'] === '' ? 'POST':'PUT';
             $.ajax({
                 type: type,
-                url: ctxPath + "project",
+                url: ctxPath + "pay/project",
                 data: JSON.stringify(json),
                 contentType: 'application/json',
                 success: function (ret) {

@@ -2,7 +2,6 @@ package com.donglu.cloud.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 

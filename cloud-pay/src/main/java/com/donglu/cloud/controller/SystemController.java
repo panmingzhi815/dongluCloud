@@ -10,10 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,17 +27,15 @@ public class SystemController {
     private SystemUserRepository systemUserRepository;
 
 
-    @GetMapping(path = {"/", "/index"})
+    @GetMapping(path = {"/", "/index"},name = "用户登录")
     public String index(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
         model.addAttribute("menus", getSystemMenuList());
-        model.addAttribute("user", user);
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return "index";
     }
 
     private List<SystemMenu> getSystemMenuList() {
-        BooleanExpression folder = QSystemMenu.systemMenu.menuType.eq("folder");
+        BooleanExpression folder = QSystemMenu.systemMenu.parent.isNull();
         OrderSpecifier<String> asc = QSystemMenu.systemMenu.menuOrder.asc();
         return Lists.newArrayList(systemMenuRepository.findAll(folder, asc));
     }
@@ -79,6 +74,13 @@ public class SystemController {
     @ResponseBody
     public MsgResponse SaveSystemUser(@RequestBody SystemUser systemUser) {
         systemUserRepository.save(systemUser);
+        return MsgResponse.success(0, "操作成功");
+    }
+
+    @DeleteMapping(value = "/systemUser/{id}",name = "删除用户")
+    @ResponseBody
+    public MsgResponse delSystemUser(@PathVariable String id) {
+        systemUserRepository.deleteById(id);
         return MsgResponse.success(0, "操作成功");
     }
 

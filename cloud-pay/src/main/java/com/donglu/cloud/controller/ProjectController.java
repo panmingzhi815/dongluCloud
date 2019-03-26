@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/pay")
 public class ProjectController {
 
     @Autowired
@@ -37,6 +38,13 @@ public class ProjectController {
     @ResponseBody
     public MsgResponse AddMerchant(@RequestBody Project project) {
         repository.save(project);
+        return MsgResponse.success(0, "操作成功");
+    }
+
+    @DeleteMapping(value = "/project/{id}",name = "删除项目")
+    @ResponseBody
+    public MsgResponse DelMerchant(@PathVariable String id) {
+        repository.deleteById(id);
         return MsgResponse.success(0, "操作成功");
     }
 

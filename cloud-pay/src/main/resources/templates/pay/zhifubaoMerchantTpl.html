@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="common/head.html"/>
-    <title>微信商户管理</title>
+    <title>支付宝商户管理</title>
 </head>
 <body>
 <div class="layui-fluid">
@@ -14,12 +14,6 @@
                     <input type="text" name="appName" id="appName" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label" for="serviceMchId">服务商号</label>
-                <div class="layui-input-block">
-                    <input type="text" name="serviceMchId" id="serviceMchId" autocomplete="off" class="layui-input">
-                </div>
-            </div>
             <div class="layui-inline" style="margin-left: 10px;line-height: 30px">
                 <button class="layui-btn" id="search_btn">查询</button>
                 <button class="layui-btn" id="add_btn">添加</button>
@@ -28,11 +22,9 @@
 
         <div class="layui-card-body">
             <table id="table" lay-filter="table"></table>
-
             <script type="text/html" id="buttonTpl">
                 <span>{{d.project.name}}</span>
             </script>
-
             <script type="text/html" id="table-edit">
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
                         class="layui-icon layui-icon-edit"></i>编辑</a>
@@ -53,17 +45,16 @@
         table.render({
             elem: '#table'
             , height: 500
-            , url: ctxPath + 'weixinMerchant' //数据接口
+            , url: ctxPath + 'pay/zhifubaoMerchant' //数据接口
             , page: true //开启分页
             , cols: [
                 [ //表头
-                    {title: '商户名称', field: 'appName', width: 200}
-                    ,{title: '公众号', field: 'appId', width: 200}
+                    {title: '商户名称', field: 'appName', width: 150}
+                    ,{title: '应用appId', field: 'appId', width: 200}
                     , {title: '商户号', field: 'mchId', width: 200}
-                    , {title: '服务商', field: 'serviceMchId', width: 250}
                     , {title: '项目名称', field: 'project', width: 100,toolbar: "#buttonTpl"}
                     , {title: '创建时间', field: 'create', width: 250}
-                    , {title: '创建时间', field: 'update', width: 250}
+                    , {title: '更新时间', field: 'update', width: 250}
                     , {title: "操作", align: "left", fixed: "right", toolbar: "#table-edit"}
                 ]
             ]
@@ -76,8 +67,8 @@
                 layer.open({
                     type: 2,
                     title: "编辑商户",
-                    content: [ctxPath + "weixinMerchant_info/"+data.id, 'no'],
-                    area: ["420px", "520px"],
+                    content: [ctxPath + "pay/zhifubaoMerchant_info/"+data.id, 'no'],
+                    area: ["420px", "560px"],
                     btn: ["确定", "取消"],
                     yes: function (index, layero) {
                         var submit = layero.find('iframe').contents().find("#submit");
@@ -89,8 +80,20 @@
             }
 
             if(obj.event === 'del'){ //删除
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
+                layer.confirm('确定要删除选中行吗', function(index){
+                    $.ajax({
+                        type: 'DELETE',
+                        url: ctxPath + "pay/zhifubaoMerchant/" + data.id,
+                        dataType:"json",
+                        success: function (ret) {
+                            if(ret.success){
+                                layer.msg(ret.msg);
+                                table.reload('table');
+                            }else{
+                                layer.msg("操作失败")
+                            }
+                        }
+                    });
                     layer.close(index);
                 });
             }
@@ -101,8 +104,8 @@
             layer.open({
                 type: 2,
                 title: "添加商户",
-                content: [ctxPath + "weixinMerchant_info", 'no'],
-                area: ["420px", "520px"],
+                content: [ctxPath + "pay/zhifubaoMerchant_info", 'no'],
+                area: ["420px", "560px"],
                 btn: ["确定", "取消"],
                 yes: function (index, layero) {
                     var submit = layero.find('iframe').contents().find("#submit");
