@@ -60,7 +60,7 @@ public class WeiXinMerchantControllerTest {
         jsonObject.put("project",jsonObject1);
 
         MvcResult mvcResult = this.mockMvc.perform(
-                MockMvcRequestBuilders.post( "/weixinMerchant")
+                MockMvcRequestBuilders.post( "/pay/weixinMerchant")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonObject.toString())
                 .accept(MediaType.ALL)).andReturn();
@@ -69,7 +69,7 @@ public class WeiXinMerchantControllerTest {
         assert msgResponse.getSuccess();
 
         MvcResult mvcResult2 = this.mockMvc.perform(
-                MockMvcRequestBuilders.get( "/weixinMerchant")
+                MockMvcRequestBuilders.get( "/pay/weixinMerchant")
                         .contentType(MediaType.TEXT_HTML)
                         .content(jsonObject.toString())
                         .accept(MediaType.ALL)).andReturn();
