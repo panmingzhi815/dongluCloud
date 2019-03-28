@@ -4,6 +4,8 @@ import com.donglu.cloud.bean.MsgResponse;
 import com.donglu.cloud.bean.QSystemLog;
 import com.donglu.cloud.bean.SystemLog;
 import com.donglu.cloud.repository.SystemLogRepository;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -11,12 +13,15 @@ import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 @Controller
 public class SystemLogController {
@@ -35,7 +40,7 @@ public class SystemLogController {
         if (StringUtils.isNotBlank(endTime)) {
             notNull = notNull.and(QSystemLog.systemLog.create.lt(DateTime.parse(endTime,DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate()));
         }
-        Page<SystemLog> all = systemLogRepository.findAll(notNull, PageRequest.of(page - 1, limit));
+        Page<SystemLog> all = systemLogRepository.findAll(notNull, PageRequest.of(page - 1, limit, Sort.by(Sort.Order.desc("create"))));
         return MsgResponse.success(0, "", all.getTotalElements(), all.getContent());
     }
 

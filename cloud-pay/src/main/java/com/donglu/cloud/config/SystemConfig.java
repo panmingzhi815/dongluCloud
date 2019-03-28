@@ -6,6 +6,8 @@ import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,13 +15,13 @@ import java.text.SimpleDateFormat;
 
 
 @Configuration
-public class ViewController implements WebMvcConfigurer {
+public class SystemConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("login");
         registry.addViewController("console");
-        registry.addViewController("doc");
+        registry.addViewController("open_doc");
         registry.addViewController("play");
         registry.addViewController("system/user");
         registry.addViewController("system/log");
@@ -39,4 +41,8 @@ public class ViewController implements WebMvcConfigurer {
         return jsonConverter;
     }
 
+    @Bean
+    public PasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }

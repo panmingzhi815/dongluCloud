@@ -1,0 +1,51 @@
+[INFO ] 2019-03-27 11:34:45 [restartedMain] com.donglu.cloud.CloudPayApplication - Starting CloudPayApplication on xiaoxin-pmz with PID 18624 (D:\source\dongluCloud\cloud-pay\target\classes started by panmingzhi815 in D:\source\dongluCloud\cloud-pay)
+[INFO ] 2019-03-27 11:34:45 [restartedMain] com.donglu.cloud.CloudPayApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 105ms. Found 8 repository interfaces.
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$ffb63f83] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.16]
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.a.c.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files (x86)\Java\jdk1.8.0_181\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\app\panmingzhi815\product\11.2.0\dbhome_1\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\nodejs\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\VSShell\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\PrivateAssemblies\;C:\Program Files (x86)\Microsoft SQL Server\100\DTS\Binn\;D:\software\maven3\bin;C:\Program Files (x86)\Java\jdk1.8.0_181\bin;C:\Users\panmingzhi\AppData\Local\Microsoft\WindowsApps;C:\Users\panmingzhi\AppData\Roaming\npm;C:\Users\panmingzhi\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2018.3.2\bin;;C:\Users\panmingzhi\AppData\Local\Microsoft\WindowsApps;;C:\Program Files\Java\jre8\bin;C:\Program Files\BioStar 2(x64)\ve\dist\lib\bsve\dll;;C:\Program Files\Java\jre8\bin;D:\BioStar 2(x64)\ve\dist\lib\bsve\dll;;C:\Program Files\JetBrains\IntelliJ IDEA 2018.3.5\bin;;.]
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2976 ms
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.b.a.e.w.ServletEndpointRegistrar - Registered '/actuator/jolokia' to jolokia-actuator-endpoint
+[INFO ] 2019-03-27 11:34:45 [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[INFO ] 2019-03-27 11:34:45 [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO ] 2019-03-27 11:34:45 [restartedMain] org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+[INFO ] 2019-03-27 11:34:45 [restartedMain] org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+[INFO ] 2019-03-27 11:34:45 [restartedMain] org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.h.t.s.internal.SchemaCreatorImpl - HHH000476: Executing import script 'org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl@184c345'
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: Ant [pattern='/resources/**'], []
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: Ant [pattern='/favicon.ico'], []
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: Ant [pattern='/layuiadmin/**'], []
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: Ant [pattern='/img/**'], []
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@56acef, org.springframework.security.web.context.SecurityContextPersistenceFilter@80571d, org.springframework.security.web.header.HeaderWriterFilter@60da2f, org.springframework.security.web.authentication.logout.LogoutFilter@163249d, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@11c9053, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3df606, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@50ff4f, org.springframework.security.web.session.SessionManagementFilter@2ef503, org.springframework.security.web.access.ExceptionTranslationFilter@144a883, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1f3a76a]
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.b.a.e.web.EndpointLinksResolver - Exposing 16 endpoint(s) beneath base path '/actuator'
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+[INFO ] 2019-03-27 11:34:45 [restartedMain] com.donglu.cloud.CloudPayApplication - Started CloudPayApplication in 8.721 seconds (JVM running for 10.721)
+[INFO ] 2019-03-27 11:34:45 [restartedMain] o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+[INFO ] 2019-03-27 11:34:45 [restartedMain] c.d.cloud.config.SystemInitCommand - 初始化系统菜单
+[INFO ] 2019-03-27 11:34:45 [restartedMain] c.d.cloud.config.SystemInitCommand - 初始化系统登录用户
+[INFO ] 2019-03-27 11:34:45 [restartedMain] c.d.cloud.config.SystemInitCommand - 初始化系统配置
+[INFO ] 2019-03-27 11:34:45 [restartedMain] c.d.cloud.config.SystemInitCommand - 初始化项目信息
+[INFO ] 2019-03-27 11:34:45 [RMI TCP Connection(4)-192.168.56.1] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[INFO ] 2019-03-27 11:34:45 [RMI TCP Connection(4)-192.168.56.1] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[INFO ] 2019-03-27 11:34:45 [RMI TCP Connection(4)-192.168.56.1] o.s.web.servlet.DispatcherServlet - Completed initialization in 13 ms
+[INFO ] 2019-03-27 11:34:45 [Thread-27] o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+[INFO ] 2019-03-27 11:34:45 [Thread-27] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO ] 2019-03-27 11:34:45 [Thread-27] o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+[INFO ] 2019-03-27 11:34:45 [Thread-27] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[INFO ] 2019-03-27 11:34:45 [Thread-27] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

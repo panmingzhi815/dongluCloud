@@ -31,10 +31,10 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;">
-                        <cite th:text="${user.username}"></cite>
+                        <cite th:text="${user.nickName}"></cite>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                        <dd><a href="javascript:;" id="password-btn">修改密码</a></dd>
                         <hr>
                         <dd style="text-align: center;"><a th:href="@{/login?logout}">退出</a></dd>
                     </dl>
@@ -103,15 +103,72 @@
         <div class="layadmin-body-shade" layadmin-event="shade"></div>
     </div>
 </div>
-
+</body>
+<form class="layui-form" id="password-form" style="width: 300px;padding: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" required  lay-verify="required" th:value="${user.username}" autocomplete="off" class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">旧密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="oldPassword" required  lay-verify="required" placeholder="请输入旧密码" value="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="newPassword" required  lay-verify="required" placeholder="请输入新密码" value="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="password-form">立即提交</button>
+        </div>
+    </div>
+</form>
 <script th:inline="javascript">
     var ctxPath = /*[[@{/}]]*/ '';
     layui.config({
         base: ctxPath + 'layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use('index');
-</script>
-</body>
+    }).use(['index','form','jquery','layer'],function () {
+        var form = layui.form;
+        var $ = layui.$;
+        var layer = layui.layer;
 
+        $("#password-btn").click(function () {
+            layer.open({
+                type:1,
+                title: "修改密码",
+                area: ['400px', '280px'],
+                content:$("#password-form")
+            })
+        });
+
+        form.on('submit(password-form)', function(data){
+            $.ajax({
+                type: 'POST',
+                url: ctxPath + "systemUser/password",
+                data: data.field,
+                success: function (ret) {
+                    if(ret.success){
+                        layer.msg(ret.msg, {
+                            icon: 1,
+                            time: 2000
+                        }, function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(ret.msg);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
 </html>

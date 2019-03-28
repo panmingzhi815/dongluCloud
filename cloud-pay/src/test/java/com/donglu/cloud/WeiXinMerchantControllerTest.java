@@ -2,9 +2,7 @@ package com.donglu.cloud;
 
 import com.donglu.cloud.bean.MsgResponse;
 import com.donglu.cloud.repository.ProjectRepository;
-import com.donglu.cloud.repository.WeiXinMerchantRepository;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.internal.LinkedTreeMap;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -46,7 +44,7 @@ public class WeiXinMerchantControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = "admin",userDetailsServiceBeanName = "myUserDetailsService")
+    @WithUserDetails(value = "admin",userDetailsServiceBeanName = "mySecurityUserDetailsService")
     public void test() throws Exception {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("appId","11");

@@ -3,6 +3,7 @@ package com.donglu.cloud.controller;
 import com.donglu.cloud.bean.*;
 import com.donglu.cloud.repository.SystemMenuRepository;
 import com.donglu.cloud.repository.SystemUserRepository;
+import com.donglu.cloud.security.MySecurityUser;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +29,8 @@ public class SystemController {
     private SystemMenuRepository systemMenuRepository;
     @Autowired
     private SystemUserRepository systemUserRepository;
+    @Autowired
+    private PasswordEncoder bCryptPasswordEncoder;
 
 
     @GetMapping(path = {"/", "/index"},name = "用户登录")
@@ -50,6 +56,26 @@ public class SystemController {
         Page<SystemUser> all = systemUserRepository.findAll(notNull, PageRequest.of(page - 1, limit));
         return MsgResponse.success(0, "", all.getTotalElements(), all.getContent());
     }
+
+    @PostMapping("/systemUser/password")
+    @ResponseBody
+    public MsgResponse updatePassword(@RequestParam String username,@RequestParam String oldPassword,@RequestParam String newPassword) {
+        BooleanExpression and = QSystemUser.systemUser.username.eq(username);
+        Optional<SystemUser> one = systemUserRepository.findOne(and);
+        if (!one.isPresent()) {
+            return MsgResponse.fail(MsgCode.code_10001);
+        }
+        SystemUser systemUser = one.get();
+        if(StringUtils.isNotEmpty(systemUser.getPassword()) && bCryptPasswordEncoder.matches(newPassword,systemUser.getPassword())){
+            return MsgResponse.fail(MsgCode.code_10003);
+        }
+        String encodeNewPassword = bCryptPasswordEncoder.encode(newPassword);
+        systemUser.setPassword(encodeNewPassword);
+        systemUserRepository.save(systemUser);
+
+        return MsgResponse.success(0,"操作成功");
+    }
+
 
     @PutMapping(value = "/systemUser",name = "修改用户")
     @ResponseBody
